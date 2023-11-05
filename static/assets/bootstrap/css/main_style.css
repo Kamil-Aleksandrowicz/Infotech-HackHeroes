@@ -1,0 +1,145 @@
+/*.biur {*/
+/*      position: relative;*/
+/*      display: flex;*/
+/*      justify-content: center;*/
+/*      align-items: center;*/
+/*      height: 100%;*/
+/*    }*/
+
+/*.blur{*/
+/*    !*filter: blur(5px);*!*/
+/*    border: solid black 1px;*/
+/*    border-radius: 10px;*/
+/*    padding: 10px;*/
+/*    margin: 10px;*/
+/*    text-align: center;*/
+/*    width: 20vw;*/
+/*}*/
+
+/*.blur {*/
+/*      background-color: rgba(232, 219, 219, 0.7); !* Przezroczyste tło *!*/
+/*      border: solid black 1px;*/
+/*      border-radius: 10px;*/
+/*      padding: 10px;*/
+/*      min-width: 70%; !* Szerokość w procentach *!*/
+/*      top: 50%;*/
+/*      left: 50%;*/
+/*      transform: translate(-50%, -50%);*/
+/*      max-height: 100vh; !* Maksymalna wysokość diva "blur" *!*/
+/*    }*/
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    padding: 10px;
+}
+
+.row.d-flex {
+    align-items: stretch; /* Zapewnia, że wszystkie dzieci tego kontenera będą miały tę samą wysokość */
+}
+
+.dane1, .dane2 {
+    height: 100%; /* Ustawienie wysokości na 100% dostępnej wysokości kontenera */
+    display: flex;
+    align-items: center; /* Wyśrodkowanie zawartości wertykalnie */
+    border-top: solid black 1px;
+    border-bottom: solid black 1px;
+    font-size: 1.25rem;
+    min-height: 60px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+}
+
+.dane1 {
+    border-left: solid black 1px;
+    border-radius: 10px 0 0 10px;
+    margin-left: -10px;
+    left: 0;
+}
+
+.dane2 {
+    border-right: solid black 1px;
+    border-radius: 0 10px 10px 0;
+    margin-right: -10px;
+    right: 0;
+    text-align: right;
+}
+.dane1, .dane2{
+    border-bottom: 1px solid black;
+    z-index: 90;
+}
+
+
+.obramowka, .obramowka2{
+    border: solid black 1px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* Przezroczyste tło */
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 10px;
+    margin-right: 10px;
+
+
+}
+.obramowka2{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-right: 0;
+}
+img{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.centered{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.obramowka {
+      margin-top: 15px;
+      background-color: rgba(255, 255, 255, 0.8); /* Przezroczyste tło */
+
+    }
+
+    /* Nowy styl dla div z klasą "biur" */
+    .biur {
+      position: relative;
+      text-align: center;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+
+
+.obramowka3 {
+    border: solid black 1px;
+    border-radius: 10px;
+          background-color: rgba(238, 238, 238, 0.7); /* Przezroczyste tło */
+
+}
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+}
+
+/*.prawo-col {*/
+/*    margin-left: -10px;*/
+/*    padding-right: 0;*/
+/*}*/

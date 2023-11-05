@@ -1,0 +1,80 @@
+/*.przycisk{*/
+/*    background-color: rgb(57,54,70);*/
+/*    border: none;*/
+/*    color: snow;*/
+/*    padding: 10px 20px;*/
+/*    text-align: center;*/
+/*    text-decoration: none;*/
+/*    display: inline-block;*/
+/*    font-size: 16px;*/
+/*    border-radius: 5px;*/
+/*    width: 30vw;*/
+/*    height: 7vh;*/
+/*    font-size: 1.5rem;*/
+/*    transition: 0.3s;*/
+/*}*/
+/*.przycisk:hover{*/
+/*    background-color: #555;*/
+/*    color: white;*/
+/*}*/
+/*.przycisk:active{*/
+/*    background-color: #3e8e41;*/
+/*    box-shadow: 0 5px #666;*/
+/*    transform: translateY(4px);*/
+/*}*/
+/*}*/
+.duzy{
+    height: 100vh;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.maly{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.przycisk {
+    background-color: #A2FF86;
+    /*border: 1px solid black;*/
+    border:none;
+    color: #00337C;
+    padding: 70px 40px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.przycisk i {
+    margin-right: 8px;
+}
+img{
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+.maly{
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    width: 20vw;
+}
+
+.maly {
+      padding: 10px;
+      min-width: 70%; /* Szerokość w procentach */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-height: 70%; /* Maksymalna wysokość diva "blur" */
+
+    }
+
+body{
+    background-image: linear-gradient(to right, red , yellow);
+}

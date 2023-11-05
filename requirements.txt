@@ -1,0 +1,13 @@
+asgiref==3.7.2
+Django==4.2.6
+pip==23.2.1
+setuptools==68.2.0
+sqlparse==0.4.4
+wheel==0.41.2
+mysqlclient==2.2.0
+whitenoise==6.6.0
+djangorestframework==3.14.0
+djangorestframework-api-key==3.0.0
+django-allauth==0.57.0
+vertexai
+google-cloud-aiplatform

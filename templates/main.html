@@ -1,0 +1,299 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>INFOTECH Team APP</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/main_style.css' %}">
+
+    <!-- Messages CSS -->
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/messages.css' %}">
+</head>
+<style>
+    body{
+        background-image: url("{% static 'img/img1.png' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+
+    }
+</style>
+<body style="overflow-x: hidden;">
+    <!-- Messages -->
+    {% if messages %}
+        <div id="messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row navbar">
+        <!-- Lewy div -->
+        <div class="col-4 d-flex justify-content-start align-items-center">
+            <div class="lewy">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" id="dropdown_button" type="button" disabled>device </button>
+                    <div class="dropdown-menu" id="dropdown"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Środkowy div -->
+        <div class="col-4 d-flex justify-content-center align-items-center">
+            <div class="srodek">
+                <h1>Collabothon</h1>
+            </div>
+        </div>
+
+        <!-- Prawy div -->
+        <div class="col-4 d-flex justify-content-end align-items-center prawo-col">
+            <div class="prawo">
+                <a href="{% url 'logout' %}"><button class="btn btn-primary" type="button">Logout</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row " style="margin-top: 15px;">
+        <div class="col obramowka">
+            <h1 id="ai_trend">Loading AI...</h1>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-start align-items-stretch justify-content-md-center align-items-md-stretch" style="margin-left: 0; margin-right: 0; overflow-x: hidden; overflow-y: hidden">
+    <div class="col d-flex align-items-stretch">
+        <div class="dane1">
+            <p id="data_avg">Loading...</p>
+        </div>
+    </div>
+    <div class="col d-flex align-items-stretch justify-content-end align-items-center">
+        <div class="dane2">
+            <p id="data_peak">Loading...</p>
+        </div>
+    </div>
+</div>
+
+    <div class="row" style="margin-top: 0; ">
+        <div class="col obramowka ">
+            <div class="justify-content-center align-items-start d-flex">
+                <div class="d-flex d-lg-flex justify-content-center align-items-center justify-content-lg-center align-items-lg-start">
+                    <p style="font-size: 1.25rem;text-align: left;" id="carbon">Loading...</p>
+                </div>
+            </div>
+
+            <div class="justify-content-center align-items-center d-flex">
+                <div class="d-flex justify-content-md-center align-items-md-center align-items-lg-center" style="height: 200px;min-height: 100px; margin-left: 0; max-width: 300px;">
+                <div id="bad_circle" class="d-flex d-md-flex justify-content-start align-items-start justify-content-md-center align-items-md-center" style="width: 150px;height: 150px;background: var(--bs-danger-text-emphasis);border-radius: 50%;min-width: 75px;min-height: 75px;"></div>
+                <div id="good_circle" class="d-flex d-md-flex justify-content-end align-items-end justify-content-md-center align-items-md-center" style="width: 150px;height: 150px;background: var(--bs-teal);border-radius: 50%;margin-left: 20px;"></div>
+            </div>
+            </div>
+
+        </div>
+        <div class="col obramowka ">
+            <div>
+                <div style="width: 100%;min-height: 300px;min-width: auto;">
+                    <h3>
+                        &nbsp Levels of CO2
+                    </h3>
+                    <ul style="font-size: 1.25rem">
+                        <li>400ppm <br>Normal outdoor air</li>
+                        <li>400-1,000ppm <br>Typical CO2 levels found indoors</li>
+                        <li>1,000-2,000ppm <br>Common complaints of drowsiness or poor air quality</li>
+                        <li>2,000-5,000ppm <br>Headaches, fatigue, stagnant, stuffiness, poor concentration, loss of focus, increased heart rate, nausea</li>
+                        <li>> 50,000ppm <br>Toxicity due to oxygen deprivation occurs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row " style="margin-top: 15px;">
+        <div class="col obramowka">
+            <h1>Steps&nbsp;</h1><br>
+            <ul style="font-size: 1.25rem">
+                <p id="ai_steps">Loading AI...</p>
+            </ul>
+        </div>
+    </div>
+    <br>
+
+
+
+
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script>
+        function set_active(name) {
+            var item = $(".dropdown-item").filter(function() {
+                    return $(this).text().trim() === name;
+                });
+                if (item.length > 0) {
+                    $(".dropdown-item").removeClass("active");
+                    item.addClass("active");
+                }
+        }
+
+        function findDeviceByName(devName) {
+            return data.find(item => item.device__devName === devName);
+        }
+
+        function setText(devName, data_avg, data_peak, data_percentage) {
+            //$('#1_h').html(`${devName} - carbon footprint` + `<br>Avg: ${data_avg} ppm <br> Peak: ${data_peak} ppm`)
+            $('#data_avg').html("&nbsp;Data 24-hour Average: " + data_avg +" ppm")
+            $('#data_peak').html("Data all time Peak: " + data_peak +" ppm&nbsp;")
+
+            if (data_percentage === null) {
+                 $('#carbon').html(`The carbon footprint at the Sensor ${devName} has not enough data
+                <br>to show the percentage change in the last hour.<br>Perhaps the Sensor is not connected?`)
+                $('#bad_circle').css('opacity', '0')
+                $('#good_circle').css('opacity', '0')
+            } else {
+                if (data_percentage === 0)
+                    data_percentage = 0.1
+
+                if (data_percentage < 0.0) {
+                    $('#carbon').html(`The carbon footprint at the Sensor ${devName} has <br><c style="color:limegreen;">decreased</c>
+                    by ${data_percentage * -1}% in the last hour`)
+                    $('#bad_circle').css('background-color', 'var(--bs-danger-text-emphasis)')
+                    $('#bad_circle').css('opacity', '0.33')
+                    $('#good_circle').css('background-color', 'var(--bs-teal)')
+                    $('#good_circle').css('opacity', '1')
+                } else {
+                    $('#carbon').html(`The carbon footprint at the Sensor ${devName} has <br><c style="color:red;">increased</c>
+                    by ${data_percentage}% in the last hour`)
+                    $('#bad_circle').css('background-color', 'var(--bs-red)')
+                    $('#bad_circle').css('opacity', '1')
+                    $('#good_circle').css('background-color', '#189a73')
+                    $('#good_circle').css('opacity', '0.33')
+                }
+            }
+        }
+
+        let data_jsons = []
+        let active_device = null
+        let avg_jsons = []
+        let peak_jsons = []
+        let percentage_jsons = []
+        let active_avg = null
+        let active_peak = null
+        let active_percentage = null
+        $.getJSON('{% url 'get_devices' %}',function(data){
+            $.each(data.devices,function(key,value){
+                var data_avg = data.avg.find(element => element.device__devName === value.devName);
+                var data_peak = data.peak.find(element => element.device__devName === value.devName);
+                var data_percentage = data.percentage.find(element => element.devName === value.devName);
+                if (data_percentage === undefined) {
+                    data_percentage = {prcnt: null}
+                }
+                if (data_avg === undefined) {
+                    data_avg = {avg_value: "No data"}
+                }
+                if (data_peak === undefined) {
+                    data_peak = {max_value: "No data"}
+                }
+
+                if (active_device === null) {
+                    active_device = value;
+                    avg_jsons = data.avg
+                    peak_jsons = data.peak
+                    percentage_jsons = data.percentage
+
+                    setText(active_device.devName, data_avg.avg_value, data_peak.max_value, data_percentage.prcnt)
+                    $('#dropdown_button').text(value.devName)
+                    $('#dropdown_button').removeAttr('disabled')
+
+                    $('#dropdown').append('<a class="dropdown-item" href="#">'+value.devName+'</a>')
+                    set_active(active_device.devName)
+                    data_jsons.push(value)
+
+                    $('#data_avg').html("&nbsp;Data 24-hour Average: " + data_avg.avg_value +" ppm")
+                    $('#data_peak').html("Data all time Peak: " + data_peak.max_value+" ppm&nbsp;")
+
+                    GenerateText(data_avg.avg_value, data_peak.max_value, data_percentage.prcnt)
+                } else {
+                    $('#dropdown').append('<a class="dropdown-item" href="#">' + value.devName + '</a>')
+                    data_jsons.push(value)
+                }
+            })
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            if (errorThrown.includes("Forbidden")) {
+                alert("You are not logged in!")
+                window.location.href = "{% url 'login' %}" //login
+            } else {
+                alert("Error: " + errorThrown + "\nTry again later!")
+                window.location.href = "{% url 'login' %}" //login
+            }
+        })/*.done(function(){
+            //Coś możemy zrobić jak sie dane załadują
+        })*/
+        addEventListener('click',function(e){
+            if (e.target.classList.contains('dropdown-item') && !is_generating) {
+                $('#dropdown_button').text(e.target.innerText)
+                $('#ai_trend').text("Loading AI...")
+                $('#ai_steps').text("Loading AI...")
+
+                active_device = data_jsons.find(x => x.devName === e.target.innerText)
+                set_active(active_device.devName)
+
+                active_avg = avg_jsons.find(x => x.device__devName === active_device.devName)
+                active_peak = peak_jsons.find(x => x.device__devName === active_device.devName)
+                active_percentage = percentage_jsons.find(x => x.devName === active_device.devName)
+
+                GenerateText(active_avg.avg_value, active_peak.max_value, active_percentage.prcnt)
+                if (active_percentage === undefined) {
+                    setText(active_device.devName, active_avg.avg_value, active_peak.max_value, null)
+                } else
+                    setText(active_device.devName, active_avg.avg_value, active_peak.max_value, active_percentage.prcnt)
+            }
+        })
+
+        let is_generating = false
+        function GenerateText(avg,peak, percentage) {
+            if (is_generating) {
+                return $('#dropdown_button').removeAttr('disabled')
+            }
+            $('#dropdown_button').prop('disabled', true)
+            is_generating = true
+
+            if (percentage === undefined || percentage === null) {
+                percentage = 0.0
+            }
+            let ai_data = `{"avg": ${avg},"peak": ${peak},"percentage": ${percentage},"device": "${active_device.devName}"}`
+
+            $.getJSON(`/api/ai/${ai_data}/`,
+            function(data){
+                //console.log(data)
+                $('#ai_trend').html(data.trend)
+                $('#ai_steps').html(data.steps)
+                $('#dropdown_button').removeAttr('disabled')
+                is_generating = false
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (errorThrown.includes("Forbidden")) {
+                    alert("You are not logged in!")
+                    window.location.href = "{% url 'login' %}" //login
+                } else {
+                    //console.log("Error: " + errorThrown + "\nTry again later!")
+                    $('#ai_trend').text("There was an Error when generating prompt!\n Try again later")
+                    $('#ai_steps').text("There was an Error when generating prompt!\n Try again later")
+                    $('#dropdown_button').removeAttr('disabled')
+                    is_generating = false
+                }
+
+            })
+        }
+
+    </script>
+    <script>
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 4000);
+    </script>
+</body>
+
+</html>
