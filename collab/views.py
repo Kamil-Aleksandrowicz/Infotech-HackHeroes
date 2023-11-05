@@ -15,11 +15,6 @@ from django.db.models.expressions import ExpressionWrapper
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib import messages
-
-
-import vertexai
-from vertexai.language_models import ChatModel, InputOutputTextPair
-from vertexai.preview.language_models import TextGenerationModel
 import json
 
 
@@ -174,32 +169,3 @@ class DevicesApi(APIView):
             })
 
         return Response({"devices": devices.values(),"avg":average_overall_co2_per_device,"peak":peak_overall_co2_per_device,"percentage":percentage_comparison_per_device})
-
-@permission_classes([permissions.IsAuthenticated])
-class VertexAiChat(APIView):
-    def get(self, req,data):
-        parameters = {
-            "temperature": 0.2,
-            "max_output_tokens": 150, #100 tokens correspond to roughly 60-80 words
-            "top_p": .8,
-            "top_k": 40,
-        }
-        data = json.loads(data)
-        #print(data,data['avg'],data['peak'],data['percentage'],data["device"])
-        model = TextGenerationModel.from_pretrained("text-bison@001")
-        response = model.predict(
-            f'Based on this {data["device"]} sensor CO2 data, write me a trend that will determine whether these data are normal,'
-            f'- Average 24-hour CO2 Value: {data["avg"]} ppm - Peak CO2 Value: {data["peak"]} ppm'
-            f'- {data["percentage"]}, you should be specific for urban/office environments. Limit it to 35 words,'
-            f'write it in HTML format by always adding in words increasing (red) and decreasing (green) text colors',
-            **parameters,
-        )
-        response2 = model.predict(
-            f'Based on the CO2 levels from {data["device"]} sensor and the trend analysis:'
-            f'- Average 24-hour CO2 Value: {data["avg"]} ppm - Peak CO2 Value: {data["peak"]} ppm'
-            f'- {data["percentage"]}, write few steps that can lead to a reduction in office environments.'
-            f'List the steps in the HTML <ul> <li> format. Limit it to 5 best steps',
-            **parameters,
-        )
-        #print(f"Response from Model: {response.text}")
-        return Response({"trend": response.text,"steps":response2.text})

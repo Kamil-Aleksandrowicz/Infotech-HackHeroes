@@ -60,11 +60,6 @@
         </div>
     </div>
 
-    <div class="row " style="margin-top: 15px;">
-        <div class="col obramowka">
-            <h1 id="ai_trend">Loading AI...</h1>
-        </div>
-    </div>
     <div class="row d-flex justify-content-start align-items-stretch justify-content-md-center align-items-md-stretch" style="margin-left: 0; margin-right: 0; overflow-x: hidden; overflow-y: hidden">
     <div class="col d-flex align-items-stretch">
         <div class="dane1">
@@ -109,14 +104,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row " style="margin-top: 15px;">
-        <div class="col obramowka">
-            <h1>Steps&nbsp;</h1><br>
-            <ul style="font-size: 1.25rem">
-                <p id="ai_steps">Loading AI...</p>
-            </ul>
         </div>
     </div>
     <br>
@@ -212,8 +199,6 @@
 
                     $('#data_avg').html("&nbsp;Data 24-hour Average: " + data_avg.avg_value +" ppm")
                     $('#data_peak').html("Data all time Peak: " + data_peak.max_value+" ppm&nbsp;")
-
-                    GenerateText(data_avg.avg_value, data_peak.max_value, data_percentage.prcnt)
                 } else {
                     $('#dropdown').append('<a class="dropdown-item" href="#">' + value.devName + '</a>')
                     data_jsons.push(value)
@@ -231,10 +216,8 @@
             //Coś możemy zrobić jak sie dane załadują
         })*/
         addEventListener('click',function(e){
-            if (e.target.classList.contains('dropdown-item') && !is_generating) {
+            if (e.target.classList.contains('dropdown-item')) {
                 $('#dropdown_button').text(e.target.innerText)
-                $('#ai_trend').text("Loading AI...")
-                $('#ai_steps').text("Loading AI...")
 
                 active_device = data_jsons.find(x => x.devName === e.target.innerText)
                 set_active(active_device.devName)
@@ -243,48 +226,12 @@
                 active_peak = peak_jsons.find(x => x.device__devName === active_device.devName)
                 active_percentage = percentage_jsons.find(x => x.devName === active_device.devName)
 
-                GenerateText(active_avg.avg_value, active_peak.max_value, active_percentage.prcnt)
                 if (active_percentage === undefined) {
                     setText(active_device.devName, active_avg.avg_value, active_peak.max_value, null)
                 } else
                     setText(active_device.devName, active_avg.avg_value, active_peak.max_value, active_percentage.prcnt)
             }
         })
-
-        let is_generating = false
-        function GenerateText(avg,peak, percentage) {
-            if (is_generating) {
-                return $('#dropdown_button').removeAttr('disabled')
-            }
-            $('#dropdown_button').prop('disabled', true)
-            is_generating = true
-
-            if (percentage === undefined || percentage === null) {
-                percentage = 0.0
-            }
-            let ai_data = `{"avg": ${avg},"peak": ${peak},"percentage": ${percentage},"device": "${active_device.devName}"}`
-
-            $.getJSON(`/api/ai/${ai_data}/`,
-            function(data){
-                //console.log(data)
-                $('#ai_trend').html(data.trend)
-                $('#ai_steps').html(data.steps)
-                $('#dropdown_button').removeAttr('disabled')
-                is_generating = false
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                if (errorThrown.includes("Forbidden")) {
-                    alert("You are not logged in!")
-                    window.location.href = "{% url 'login' %}" //login
-                } else {
-                    //console.log("Error: " + errorThrown + "\nTry again later!")
-                    $('#ai_trend').text("There was an Error when generating prompt!\n Try again later")
-                    $('#ai_steps').text("There was an Error when generating prompt!\n Try again later")
-                    $('#dropdown_button').removeAttr('disabled')
-                    is_generating = false
-                }
-
-            })
-        }
 
     </script>
     <script>
