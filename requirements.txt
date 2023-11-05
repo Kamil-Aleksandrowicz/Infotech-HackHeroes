@@ -9,5 +9,3 @@ whitenoise==6.6.0
 djangorestframework==3.14.0
 djangorestframework-api-key==3.0.0
 django-allauth==0.57.0
-vertexai
-google-cloud-aiplatform
