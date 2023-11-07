@@ -7,7 +7,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import DeviceData, DeviceDataVars,Devices
+from .models import DeviceData, DeviceDataVars,Devices, Webhook
 from django.db.models import Q,Avg, FloatField, F,Max
 from django.utils import timezone
 from django.db.models.functions import Cast,Round
@@ -15,6 +15,7 @@ from django.db.models.expressions import ExpressionWrapper
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.contrib import messages
+import requests
 import json
 
 
@@ -169,3 +170,18 @@ class DevicesApi(APIView):
             })
 
         return Response({"devices": devices.values(),"avg":average_overall_co2_per_device,"peak":peak_overall_co2_per_device,"percentage":percentage_comparison_per_device})
+#@permission_classes([permissions.IsAuthenticated])
+class WebhookAPI(APIView):
+    def post(self, req):
+        endpoints = Webhook.objects.all()
+
+        for endpoint in endpoints:
+            try:
+                # Wyślij żądanie POST do każdego URL
+                response = requests.post(endpoint.webhook_url, json={"data": 200})
+                response.raise_for_status()  # Może rzucić wyjątek jeśli status_code nie jest 2xx
+                # Opcjonalnie możesz zalogować informacje o odpowiedzi
+                print(f"Webhook sent to {endpoint.webhook_url} with status code {response.status_code}.")
+            except requests.exceptions.RequestException as e:
+                # Obsługa błędów związanych z połączeniem, czasem odpowiedzi itp.
+                print(f"Failed to send webhook to {endpoint.webhook_url}: {e}")

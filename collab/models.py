@@ -47,3 +47,17 @@ class DeviceDataVars(models.Model):
         verbose_name = "Device Data Variable"
         db_table = "device_data_vars"
         managed = True
+
+class Webhook(models.Model):
+    webhook_url = models.URLField() # webhook url
+    webhook_name = models.CharField(max_length=250) # webhook name
+    webhook_secret = models.CharField(max_length=250) # webhook secret
+
+    def __str__(self):
+        return f"{self.webhook_name} - {self.webhook_url}"
+
+    class Meta:
+        verbose_name_plural = "Webhooks"
+        verbose_name = "Webhook"
+        db_table = "webhooks"
+        managed = True

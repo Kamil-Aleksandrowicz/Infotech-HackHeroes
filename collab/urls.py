@@ -14,5 +14,5 @@ urlpatterns = [
     path('accounts/logout/', lambda x: redirect('logout')), # redirect /accounts/logout/ to /logout/
     path('accounts/signup/', lambda x: redirect('login')), # redirect /accounts/signup/ to /login/
     path('accounts/', include('allauth.urls')), # allauth
-
+    path('api/force_webhook/', WebhookAPI.as_view(), name='force_webhook'), # force webhook
 ]
